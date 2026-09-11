@@ -7,6 +7,7 @@ import {
   ArrowRight,
   Mail,
   Camera,
+  Star,
 } from "lucide-react"
 
 import heroPhoto from "@/imports/WhatsApp_Image_2026-09-11_at_10.40.04.jpeg"
@@ -72,8 +73,14 @@ export default function App() {
     { name: "Tentang", href: "#tentang" },
     { name: "Layanan", href: "#layanan" },
     { name: "Katalog", href: "#katalog" },
+    { name: "Portofolio", href: "#portofolio" },
     { name: "Proses", href: "#proses" },
     { name: "FAQ", href: "#faq" },
+  ]
+
+  const clientLogos = [
+    "Universitas Indonesia", "Bank Mandiri", "Gojek", "Pertamina", "Kemenkeu RI",
+    "Tech in Asia", "Tokopedia", "Telkom Indonesia"
   ]
 
   const services = [
@@ -165,6 +172,19 @@ export default function App() {
       ? products
       : products.filter((p) => p.cat === activeFilter)
 
+  const portfolios = [
+    { img: "https://images.unsplash.com/photo-1582298538104-efa9ca10845a?w=800&h=600&fit=crop", title: "Tech Conference 2026" },
+    { img: "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=800&h=600&fit=crop", title: "Corporate Event" },
+    { img: "https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?w=800&h=600&fit=crop", title: "Hospitality Staff ID" },
+    { img: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800&h=600&fit=crop", title: "Startup Starter Kit" }
+  ]
+
+  const testimonials = [
+    { name: "Budi Santoso", role: "HR Manager, TechCorp", text: "Kualitas lanyard dan ID card sangat premium. Hasil cetak warna sesuai dengan brand guideline kami. Sangat direkomendasikan!" },
+    { name: "Siti Aminah", role: "Event Organizer", text: "Prosesnya cepat dan respons admin sangat membantu. Desain yang diajukan juga sangat elegan, tidak pasaran." },
+    { name: "Andi Wijaya", role: "Ketua Panitia Kampus", text: "Harga terjangkau tapi kualitasnya bikin panitia dan peserta takjub. Pasti akan pesan lagi untuk event tahun depan." }
+  ]
+
   const faqs = [
     {
       q: "Apakah desain bisa custom?",
@@ -190,7 +210,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen text-white relative selection:bg-white/30 selection:text-white">
-      {/* Fixed Full-Page Background Gradient (from Hero) */}
+      {/* Fixed Full-Page Background Gradient */}
       <div className="fixed inset-0 bg-gradient-to-br from-[#0b3b70] via-[#1A6CBA] to-[#64B5F6] -z-20"></div>
       
       {/* Subtle pattern overlay applied to the entire site */}
@@ -320,18 +340,21 @@ export default function App() {
         </div>
       </section>
 
-      {/* Trust/Clients Banner */}
-      <section className="border-y border-white/10 bg-white/5 backdrop-blur-sm py-8 px-5">
-        <div className="max-w-7xl mx-auto flex flex-wrap justify-center items-center gap-6 lg:gap-16 text-xs sm:text-sm font-semibold text-white/60 uppercase tracking-widest">
-          <span>Perusahaan</span>
-          <span className="hidden sm:inline text-white/20">•</span>
-          <span>Organisasi</span>
-          <span className="hidden sm:inline text-white/20">•</span>
-          <span>Sekolah</span>
-          <span className="hidden sm:inline text-white/20">•</span>
-          <span>Event</span>
-          <span className="hidden sm:inline text-white/20">•</span>
-          <span>Komunitas</span>
+      {/* Trust/Clients Marquee (Replaced Banner) */}
+      <section className="border-y border-white/10 bg-white/5 backdrop-blur-sm py-8 overflow-hidden flex">
+        <div className="flex shrink-0 animate-marquee items-center gap-16 px-8">
+          {clientLogos.map((logo, i) => (
+            <span key={`logo1-${i}`} className="text-xl md:text-2xl font-display font-bold text-white/40 tracking-wider uppercase whitespace-nowrap">
+              {logo}
+            </span>
+          ))}
+        </div>
+        <div className="flex shrink-0 animate-marquee items-center gap-16 px-8" aria-hidden="true">
+          {clientLogos.map((logo, i) => (
+            <span key={`logo2-${i}`} className="text-xl md:text-2xl font-display font-bold text-white/40 tracking-wider uppercase whitespace-nowrap">
+              {logo}
+            </span>
+          ))}
         </div>
       </section>
 
@@ -475,6 +498,50 @@ export default function App() {
         </div>
       </section>
 
+      {/* Portfolio / Gallery */}
+      <section id="portofolio" className="py-24 px-5">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-16 flex flex-col lg:flex-row lg:items-end justify-between gap-8">
+            <div>
+              <h2 className="font-display font-semibold text-3xl lg:text-4xl text-white mb-4 drop-shadow-sm">
+                Galeri Hasil Karya
+              </h2>
+              <p className="text-white/80 text-lg font-light">
+                Bukti nyata dari dedikasi kami terhadap kualitas dan detail.
+              </p>
+            </div>
+            <Button
+              variant="secondary"
+              onClick={() =>
+                openWhatsApp("Halo SanDesign, boleh saya melihat contoh hasil cetak lainnya?")
+              }
+            >
+              Lihat Lebih Banyak Karya
+            </Button>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {portfolios.map((item, i) => (
+              <div
+                key={i}
+                className="group relative bg-white/5 border border-white/10 rounded-sm overflow-hidden aspect-[4/5] cursor-pointer shadow-sm"
+              >
+                <img
+                  src={item.img}
+                  alt={item.title}
+                  className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 ease-out"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0b3b70]/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                  <h4 className="text-white font-display font-semibold text-lg drop-shadow-md">
+                    {item.title}
+                  </h4>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Process */}
       <section id="proses" className="py-24 px-5">
         <div className="max-w-7xl mx-auto">
@@ -526,6 +593,48 @@ export default function App() {
                 <p className="text-white/70 text-sm font-light leading-relaxed">
                   {step.d}
                 </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-24 px-5 bg-black/10 border-y border-white/10 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-16 text-center">
+            <h2 className="font-display font-semibold text-3xl lg:text-4xl text-white mb-4 drop-shadow-sm">
+              Dipercaya oleh Klien Kami
+            </h2>
+            <p className="text-white/80 text-lg font-light">
+              Bukti kepuasan dari mereka yang telah berkolaborasi dengan SanDesign.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {testimonials.map((testi, i) => (
+              <div
+                key={i}
+                className="bg-white/5 border border-white/10 p-8 rounded-sm backdrop-blur-sm flex flex-col relative"
+              >
+                <div className="flex gap-1 mb-6">
+                  {[...Array(5)].map((_, idx) => (
+                    <Star
+                      key={idx}
+                      size={18}
+                      className="fill-[#F59E0B] text-[#F59E0B]"
+                    />
+                  ))}
+                </div>
+                <p className="text-white/90 font-light leading-relaxed mb-8 italic flex-1">
+                  "{testi.text}"
+                </p>
+                <div className="border-t border-white/10 pt-5 mt-auto">
+                  <h4 className="font-semibold text-white mb-1">{testi.name}</h4>
+                  <p className="text-xs text-white/50 tracking-wider uppercase font-medium">
+                    {testi.role}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
