@@ -20,14 +20,14 @@ const Button = ({
   ...props
 }: any) => {
   const base =
-    "inline-flex items-center justify-center font-medium transition-all duration-300 rounded-sm"
+    "inline-flex items-center justify-center font-medium transition-all duration-300 rounded-sm backdrop-blur-sm"
   const variants = {
-    primary: "bg-primary text-white hover:bg-[#155a9c]",
+    primary: "bg-white text-[#1A6CBA] hover:bg-gray-100 shadow-lg shadow-white/10",
     secondary:
-      "bg-transparent text-white border border-white/30 hover:bg-white/10",
+      "bg-white/10 text-white border border-white/30 hover:bg-white/20",
     outline:
-      "border border-border-gray text-foreground hover:border-foreground",
-    dark: "bg-foreground text-white hover:bg-gray-800",
+      "border border-white/30 text-white hover:bg-white/10",
+    dark: "bg-black/20 text-white hover:bg-black/30 border border-white/10",
   }
   const sizes = {
     sm: "px-4 py-2 text-sm",
@@ -189,22 +189,27 @@ export default function App() {
   ]
 
   return (
-    <div className="min-h-screen bg-background relative selection:bg-primary/20 selection:text-primary">
+    <div className="min-h-screen text-white relative selection:bg-white/30 selection:text-white">
+      {/* Fixed Full-Page Background Gradient (from Hero) */}
+      <div className="fixed inset-0 bg-gradient-to-br from-[#0b3b70] via-[#1A6CBA] to-[#64B5F6] -z-20"></div>
+      
+      {/* Subtle pattern overlay applied to the entire site */}
+      <div 
+        className="fixed inset-0 opacity-[0.05] pointer-events-none -z-10" 
+        style={{ backgroundImage: "radial-gradient(#fff 1px, transparent 1px)", backgroundSize: "24px 24px" }}
+      ></div>
+
       {/* Navbar */}
       <header
         className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
           isScrolled
-            ? "bg-white/95 backdrop-blur-sm border-b border-border-gray py-4"
+            ? "bg-white/5 backdrop-blur-md border-b border-white/10 py-4 shadow-lg"
             : "bg-transparent py-6"
         }`}
       >
         <div className="max-w-7xl mx-auto px-5 lg:px-8 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <span
-              className={`font-display font-bold text-2xl tracking-tight transition-colors ${
-                isScrolled ? "text-foreground" : "text-white"
-              }`}
-            >
+            <span className="font-display font-bold text-2xl tracking-tight text-white">
               SanDesign.
             </span>
           </div>
@@ -214,11 +219,7 @@ export default function App() {
               <a
                 key={link.name}
                 href={link.href}
-                className={`text-sm font-medium transition-colors ${
-                  isScrolled
-                    ? "text-text-gray hover:text-foreground"
-                    : "text-white/80 hover:text-white"
-                }`}
+                className="text-sm font-medium text-white/80 hover:text-white transition-colors"
               >
                 {link.name}
               </a>
@@ -228,7 +229,7 @@ export default function App() {
           <div className="hidden lg:block">
             <Button
               size="sm"
-              variant={isScrolled ? "dark" : "secondary"}
+              variant="secondary"
               onClick={() => openWhatsApp()}
               className="gap-2"
             >
@@ -238,9 +239,7 @@ export default function App() {
           </div>
 
           <button
-            className={`lg:hidden transition-colors ${
-              isScrolled ? "text-foreground" : "text-white"
-            }`}
+            className="lg:hidden text-white transition-colors"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -249,12 +248,12 @@ export default function App() {
 
         {/* Mobile menu */}
         {mobileMenuOpen && (
-          <div className="lg:hidden absolute top-full left-0 w-full bg-white border-b border-border-gray shadow-lg p-5 flex flex-col gap-4">
+          <div className="lg:hidden absolute top-full left-0 w-full bg-[#0b3b70]/95 backdrop-blur-xl border-b border-white/20 shadow-lg p-5 flex flex-col gap-4">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
-                className="text-base font-medium text-foreground hover:text-primary p-2 border-b border-border-gray/50 last:border-0"
+                className="text-base font-medium text-white hover:text-white/80 p-2 border-b border-white/10 last:border-0"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {link.name}
@@ -262,7 +261,7 @@ export default function App() {
             ))}
             <Button
               className="w-full mt-2 gap-2"
-              variant="dark"
+              variant="primary"
               onClick={() => openWhatsApp()}
             >
               <MessageCircle size={18} />
@@ -273,26 +272,23 @@ export default function App() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 px-5 lg:px-8 bg-gradient-to-br from-[#1A6CBA] to-[#64B5F6] overflow-hidden">
-        {/* Subtle pattern overlay */}
-        <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: "radial-gradient(#fff 1px, transparent 1px)", backgroundSize: "24px 24px" }}></div>
-        
+      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 px-5 lg:px-8 overflow-hidden">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-20 relative z-10">
           <div className="flex-1 space-y-8 text-center lg:text-left text-white animate-fade-in-up">
-            <div className="inline-block px-4 py-1.5 border border-white/30 text-white text-xs font-semibold uppercase tracking-widest rounded-sm">
+            <div className="inline-block px-4 py-1.5 border border-white/30 text-white text-xs font-semibold uppercase tracking-widest rounded-sm bg-white/5 backdrop-blur-sm">
               Premium Design & Print
             </div>
-            <h1 className="font-display font-semibold text-5xl sm:text-6xl lg:text-7xl/tight tracking-tight">
+            <h1 className="font-display font-semibold text-5xl sm:text-6xl lg:text-7xl/tight tracking-tight drop-shadow-sm">
               Elevate Your <br />
               Brand Identity.
             </h1>
-            <p className="text-lg text-blue-50 max-w-xl mx-auto lg:mx-0 font-light leading-relaxed">
+            <p className="text-lg text-white/90 max-w-xl mx-auto lg:mx-0 font-light leading-relaxed">
               Jasa desain dan cetak premium untuk perusahaan, event, dan komunitas. Kami mewujudkan identitas visual Anda dengan standar profesional tertinggi.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
               <Button
                 size="lg"
-                className="bg-white text-[#1A6CBA] hover:bg-gray-100 w-full sm:w-auto"
+                className="w-full sm:w-auto"
                 onClick={() => openWhatsApp()}
               >
                 Mulai Konsultasi
@@ -313,11 +309,11 @@ export default function App() {
           </div>
 
           <div className="flex-1 w-full max-w-lg lg:max-w-none relative animate-[fadeInUp_0.8s_ease-out_0.2s_forwards] opacity-0">
-            <div className="relative overflow-hidden shadow-2xl aspect-[3/4] max-w-md mx-auto lg:ml-auto border-4 border-white/10 bg-white/5 backdrop-blur-sm rounded-sm">
+            <div className="relative overflow-hidden shadow-2xl aspect-[3/4] max-w-md mx-auto lg:ml-auto border border-white/20 bg-white/5 backdrop-blur-sm rounded-sm p-2">
               <img
                 src={heroPhoto}
                 alt="SanDesign Hero Lanyard"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover rounded-sm"
               />
             </div>
           </div>
@@ -325,16 +321,16 @@ export default function App() {
       </section>
 
       {/* Trust/Clients Banner */}
-      <section className="border-b border-border-gray bg-white py-10 px-5">
-        <div className="max-w-7xl mx-auto flex flex-wrap justify-center items-center gap-6 lg:gap-16 text-xs sm:text-sm font-semibold text-text-gray uppercase tracking-widest">
+      <section className="border-y border-white/10 bg-white/5 backdrop-blur-sm py-8 px-5">
+        <div className="max-w-7xl mx-auto flex flex-wrap justify-center items-center gap-6 lg:gap-16 text-xs sm:text-sm font-semibold text-white/60 uppercase tracking-widest">
           <span>Perusahaan</span>
-          <span className="hidden sm:inline text-border-gray">•</span>
+          <span className="hidden sm:inline text-white/20">•</span>
           <span>Organisasi</span>
-          <span className="hidden sm:inline text-border-gray">•</span>
+          <span className="hidden sm:inline text-white/20">•</span>
           <span>Sekolah</span>
-          <span className="hidden sm:inline text-border-gray">•</span>
+          <span className="hidden sm:inline text-white/20">•</span>
           <span>Event</span>
-          <span className="hidden sm:inline text-border-gray">•</span>
+          <span className="hidden sm:inline text-white/20">•</span>
           <span>Komunitas</span>
         </div>
       </section>
@@ -342,31 +338,31 @@ export default function App() {
       {/* About */}
       <section id="tentang" className="py-24 px-5 max-w-7xl mx-auto">
         <div className="flex flex-col lg:flex-row gap-16 items-center">
-          <div className="flex-1 relative">
-            <div className="aspect-square max-w-lg mx-auto bg-off-white overflow-hidden rounded-sm">
+          <div className="flex-1 relative w-full">
+            <div className="aspect-square max-w-lg mx-auto bg-white/5 border border-white/10 p-2 backdrop-blur-sm overflow-hidden rounded-sm shadow-xl">
               <img
                 src="https://images.unsplash.com/photo-1600132806370-bf17e65e942f?w=800&h=800&fit=crop"
                 alt="Proses Desain Profesional"
-                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                className="w-full h-full object-cover grayscale opacity-80 hover:opacity-100 hover:grayscale-0 transition-all duration-700 rounded-sm"
               />
             </div>
           </div>
           <div className="flex-1 space-y-8">
-            <h2 className="font-display font-semibold text-3xl lg:text-4xl text-foreground">
+            <h2 className="font-display font-semibold text-3xl lg:text-4xl text-white drop-shadow-sm">
               Pendekatan Profesional <br /> Untuk Identitas Visual Anda.
             </h2>
-            <div className="w-12 h-[2px] bg-primary"></div>
-            <p className="text-text-gray text-lg font-light leading-relaxed">
+            <div className="w-12 h-[2px] bg-white"></div>
+            <p className="text-white/80 text-lg font-light leading-relaxed">
               SanDesign membantu perusahaan dan organisasi membangun citra profesional melalui desain dan produksi Lanyard serta ID Card berkualitas tinggi. Kami percaya bahwa detail kecil mencerminkan profesionalisme brand Anda di mata klien dan publik.
             </p>
             <div className="pt-4 grid sm:grid-cols-2 gap-8">
-              <div>
-                <h4 className="font-semibold text-foreground mb-2">Desain Kustom Presisi</h4>
-                <p className="text-sm text-text-gray font-light">Setiap detail disesuaikan dengan pedoman identitas brand Anda.</p>
+              <div className="bg-white/5 border border-white/10 p-5 rounded-sm backdrop-blur-sm">
+                <h4 className="font-semibold text-white mb-2">Desain Kustom Presisi</h4>
+                <p className="text-sm text-white/70 font-light">Setiap detail disesuaikan dengan pedoman identitas brand Anda.</p>
               </div>
-              <div>
-                <h4 className="font-semibold text-foreground mb-2">Material Premium</h4>
-                <p className="text-sm text-text-gray font-light">Menggunakan bahan tahan lama dengan hasil cetak warna yang tajam.</p>
+              <div className="bg-white/5 border border-white/10 p-5 rounded-sm backdrop-blur-sm">
+                <h4 className="font-semibold text-white mb-2">Material Premium</h4>
+                <p className="text-sm text-white/70 font-light">Menggunakan bahan tahan lama dengan hasil cetak warna yang tajam.</p>
               </div>
             </div>
           </div>
@@ -374,32 +370,32 @@ export default function App() {
       </section>
 
       {/* Services */}
-      <section id="layanan" className="py-24 bg-off-white px-5">
+      <section id="layanan" className="py-24 px-5">
         <div className="max-w-7xl mx-auto">
           <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-8">
             <div className="max-w-2xl">
-              <h2 className="font-display font-semibold text-3xl lg:text-4xl text-foreground mb-4">
+              <h2 className="font-display font-semibold text-3xl lg:text-4xl text-white mb-4 drop-shadow-sm">
                 Layanan Kami
               </h2>
-              <p className="text-text-gray text-lg font-light leading-relaxed">
+              <p className="text-white/80 text-lg font-light leading-relaxed">
                 Solusi komprehensif untuk kebutuhan identitas visual dan branding Anda, dieksekusi dengan presisi dan kualitas.
               </p>
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-16">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {services.map((service, i) => (
               <div
                 key={i}
-                className="group border-t border-border-gray pt-6 hover:border-primary transition-colors duration-300"
+                className="group bg-white/5 border border-white/10 p-8 hover:bg-white/10 transition-colors duration-300 backdrop-blur-sm rounded-sm shadow-sm"
               >
-                <span className="text-xs font-semibold text-primary mb-4 block tracking-widest">
+                <span className="text-xs font-semibold text-white/50 mb-4 block tracking-widest border-b border-white/10 pb-4">
                   {service.num}
                 </span>
-                <h3 className="font-display font-semibold text-xl mb-3 text-foreground group-hover:text-primary transition-colors">
+                <h3 className="font-display font-semibold text-xl mb-3 text-white">
                   {service.title}
                 </h3>
-                <p className="text-text-gray text-sm leading-relaxed font-light">
+                <p className="text-white/70 text-sm leading-relaxed font-light">
                   {service.desc}
                 </p>
               </div>
@@ -411,12 +407,12 @@ export default function App() {
       {/* Catalog */}
       <section id="katalog" className="py-24 px-5">
         <div className="max-w-7xl mx-auto">
-          <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-8">
+          <div className="mb-16 flex flex-col lg:flex-row lg:items-end justify-between gap-8">
             <div>
-              <h2 className="font-display font-semibold text-3xl lg:text-4xl text-foreground mb-4">
+              <h2 className="font-display font-semibold text-3xl lg:text-4xl text-white mb-4 drop-shadow-sm">
                 Katalog Produk
               </h2>
-              <p className="text-text-gray text-lg font-light">
+              <p className="text-white/80 text-lg font-light">
                 Eksplorasi lini produk premium kami.
               </p>
             </div>
@@ -425,10 +421,10 @@ export default function App() {
                 <button
                   key={cat}
                   onClick={() => setActiveFilter(cat)}
-                  className={`px-5 py-2 text-sm font-medium transition-all rounded-sm border ${
+                  className={`px-5 py-2 text-sm font-medium transition-all rounded-sm border backdrop-blur-sm ${
                     activeFilter === cat
-                      ? "bg-foreground text-white border-foreground"
-                      : "bg-transparent text-text-gray border-border-gray hover:border-foreground hover:text-foreground"
+                      ? "bg-white text-[#1A6CBA] border-white shadow-lg"
+                      : "bg-white/5 text-white/80 border-white/20 hover:bg-white/10 hover:text-white"
                   }`}
                 >
                   {cat}
@@ -441,35 +437,35 @@ export default function App() {
             {filteredProducts.map((product) => (
               <div
                 key={product.id}
-                className="bg-white group cursor-pointer border border-border-gray hover:border-primary transition-colors duration-300 rounded-sm overflow-hidden"
+                className="bg-white/5 border border-white/10 backdrop-blur-sm hover:border-white/30 hover:bg-white/10 transition-all duration-300 rounded-sm overflow-hidden p-3 group cursor-pointer"
                 onClick={() =>
                   openWhatsApp(
                     `Halo SanDesign, saya tertarik dengan produk ${product.name}`,
                   )
                 }
               >
-                <div className="relative aspect-[4/3] overflow-hidden bg-off-white">
+                <div className="relative aspect-[4/3] overflow-hidden border border-white/10 rounded-sm">
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                    className="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out"
                   />
                 </div>
-                <div className="p-6">
-                  <div className="text-xs font-semibold text-text-gray uppercase tracking-widest mb-2">
+                <div className="pt-6 pb-3 px-3">
+                  <div className="text-xs font-semibold text-white/50 uppercase tracking-widest mb-2">
                     {product.cat}
                   </div>
-                  <h3 className="font-display font-semibold text-lg mb-1 text-foreground group-hover:text-primary transition-colors">
+                  <h3 className="font-display font-semibold text-lg mb-1 text-white">
                     {product.name}
                   </h3>
-                  <p className="text-text-gray text-sm mb-6 font-light">
+                  <p className="text-white/80 text-sm mb-6 font-light">
                     {product.price}
                   </p>
-                  <div className="flex items-center text-primary text-sm font-semibold group-hover:text-foreground transition-colors">
+                  <div className="flex items-center text-white text-sm font-semibold group-hover:translate-x-1 transition-transform">
                     Pesan Sekarang{" "}
                     <ArrowRight
                       size={16}
-                      className="ml-2 group-hover:translate-x-1 transition-transform"
+                      className="ml-2 opacity-70 group-hover:opacity-100"
                     />
                   </div>
                 </div>
@@ -480,20 +476,20 @@ export default function App() {
       </section>
 
       {/* Process */}
-      <section id="proses" className="py-24 px-5 bg-off-white">
+      <section id="proses" className="py-24 px-5">
         <div className="max-w-7xl mx-auto">
           <div className="mb-16">
-            <h2 className="font-display font-semibold text-3xl lg:text-4xl text-foreground mb-4">
+            <h2 className="font-display font-semibold text-3xl lg:text-4xl text-white mb-4 drop-shadow-sm">
               Cara Pemesanan
             </h2>
-            <p className="text-text-gray text-lg font-light">
+            <p className="text-white/80 text-lg font-light">
               Proses kolaborasi yang efisien, terstruktur, dan transparan.
             </p>
           </div>
 
           <div className="grid md:grid-cols-5 gap-8 relative">
             {/* Desktop Line Connector */}
-            <div className="hidden md:block absolute top-6 left-12 right-12 h-[1px] bg-border-gray -z-10"></div>
+            <div className="hidden md:block absolute top-6 left-12 right-12 h-[1px] bg-white/20 -z-10"></div>
             
             {[
               {
@@ -522,12 +518,12 @@ export default function App() {
                 d: "Produk dikemas rapi dan dikirim ke lokasi Anda.",
               },
             ].map((step, i) => (
-              <div key={i} className="flex flex-col bg-transparent">
-                <div className="w-12 h-12 bg-white border border-border-gray flex items-center justify-center font-display font-semibold text-primary text-sm mb-6 rounded-sm shadow-sm">
+              <div key={i} className="flex flex-col">
+                <div className="w-12 h-12 bg-white/10 border border-white/20 backdrop-blur-md flex items-center justify-center font-display font-semibold text-white text-sm mb-6 rounded-sm shadow-sm">
                   {step.n}
                 </div>
-                <h3 className="font-semibold text-foreground mb-2">{step.t}</h3>
-                <p className="text-text-gray text-sm font-light leading-relaxed">
+                <h3 className="font-semibold text-white mb-2">{step.t}</h3>
+                <p className="text-white/70 text-sm font-light leading-relaxed">
                   {step.d}
                 </p>
               </div>
@@ -540,10 +536,10 @@ export default function App() {
       <section id="faq" className="py-24 px-5">
         <div className="max-w-3xl mx-auto">
           <div className="mb-12 text-center">
-            <h2 className="font-display font-semibold text-3xl lg:text-4xl text-foreground mb-4">
+            <h2 className="font-display font-semibold text-3xl lg:text-4xl text-white mb-4 drop-shadow-sm">
               Pertanyaan Umum
             </h2>
-            <p className="text-text-gray text-lg font-light">
+            <p className="text-white/80 text-lg font-light">
               Informasi seputar layanan dan pemesanan.
             </p>
           </div>
@@ -552,28 +548,28 @@ export default function App() {
             {faqs.map((faq, i) => (
               <div
                 key={i}
-                className="border-b border-border-gray overflow-hidden"
+                className="bg-white/5 border border-white/10 backdrop-blur-sm rounded-sm overflow-hidden"
               >
                 <button
-                  className="w-full py-5 text-left flex items-center justify-between font-medium text-foreground hover:text-primary transition-colors"
+                  className="w-full px-6 py-5 text-left flex items-center justify-between font-medium text-white hover:bg-white/5 transition-colors"
                   onClick={() => setActiveFaq(activeFaq === i ? null : i)}
                 >
                   {faq.q}
                   <ChevronDown
-                    className={`transition-transform duration-300 text-text-gray ${
+                    className={`transition-transform duration-300 text-white/50 ${
                       activeFaq === i ? "rotate-180" : ""
                     }`}
                     size={20}
                   />
                 </button>
                 <div
-                  className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                  className={`px-6 overflow-hidden transition-all duration-300 ease-in-out ${
                     activeFaq === i
                       ? "max-h-40 pb-5 opacity-100"
                       : "max-h-0 opacity-0"
                   }`}
                 >
-                  <p className="text-text-gray font-light text-sm">{faq.a}</p>
+                  <p className="text-white/70 font-light text-sm">{faq.a}</p>
                 </div>
               </div>
             ))}
@@ -582,18 +578,18 @@ export default function App() {
       </section>
 
       {/* CTA */}
-      <section className="py-24 px-5 bg-foreground text-center">
+      <section className="py-24 px-5 text-center bg-white/5 border-y border-white/10 backdrop-blur-sm">
         <div className="max-w-3xl mx-auto space-y-8">
-          <h2 className="font-display font-semibold text-3xl lg:text-5xl text-white tracking-tight">
+          <h2 className="font-display font-semibold text-3xl lg:text-5xl text-white tracking-tight drop-shadow-sm">
             Siap Meningkatkan Citra Perusahaan Anda?
           </h2>
-          <p className="text-gray-400 text-lg font-light">
+          <p className="text-white/80 text-lg font-light">
             Mari diskusikan kebutuhan Lanyard dan ID Card profesional untuk tim dan brand Anda.
           </p>
           <div className="pt-4">
             <Button
               size="lg"
-              className="bg-primary text-white hover:bg-blue-600 gap-2 rounded-sm"
+              className="gap-2"
               onClick={() => openWhatsApp()}
             >
               <MessageCircle size={18} /> Mulai Konsultasi Gratis
@@ -603,13 +599,13 @@ export default function App() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-foreground text-gray-400 pt-16 pb-8 px-5 border-t border-gray-800">
+      <footer className="pt-16 pb-8 px-5 bg-black/10 backdrop-blur-md border-t border-white/10">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           <div className="space-y-4">
             <span className="font-display font-bold text-2xl tracking-tight text-white block mb-6">
               SanDesign.
             </span>
-            <p className="text-sm font-light leading-relaxed">
+            <p className="text-sm font-light text-white/70 leading-relaxed">
               Solusi desain dan cetak Lanyard serta ID Card premium untuk memperkuat identitas profesional perusahaan Anda.
             </p>
           </div>
@@ -623,7 +619,7 @@ export default function App() {
                 <li key={l.name}>
                   <a
                     href={l.href}
-                    className="hover:text-primary transition-colors"
+                    className="text-white/70 hover:text-white transition-colors"
                   >
                     {l.name}
                   </a>
@@ -638,17 +634,17 @@ export default function App() {
             </h4>
             <ul className="space-y-3 text-sm font-light">
               <li>
-                <a href="#" className="hover:text-primary transition-colors">
+                <a href="#" className="text-white/70 hover:text-white transition-colors">
                   Lanyard Kustom
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-primary transition-colors">
+                <a href="#" className="text-white/70 hover:text-white transition-colors">
                   Cetak ID Card
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-primary transition-colors">
+                <a href="#" className="text-white/70 hover:text-white transition-colors">
                   Corporate Kit
                 </a>
               </li>
@@ -665,7 +661,7 @@ export default function App() {
                   href={`https://wa.me/${WHATSAPP_NUMBER}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center gap-3 hover:text-primary transition-colors"
+                  className="flex items-center gap-3 text-white/70 hover:text-white transition-colors"
                 >
                   <MessageCircle size={16} /> WhatsApp
                 </a>
@@ -673,7 +669,7 @@ export default function App() {
               <li>
                 <a
                   href="#"
-                  className="flex items-center gap-3 hover:text-primary transition-colors"
+                  className="flex items-center gap-3 text-white/70 hover:text-white transition-colors"
                 >
                   <Camera size={16} /> Instagram
                 </a>
@@ -681,7 +677,7 @@ export default function App() {
               <li>
                 <a
                   href="#"
-                  className="flex items-center gap-3 hover:text-primary transition-colors"
+                  className="flex items-center gap-3 text-white/70 hover:text-white transition-colors"
                 >
                   <Mail size={16} /> Email
                 </a>
@@ -690,7 +686,7 @@ export default function App() {
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto border-t border-gray-800 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-light text-gray-500">
+        <div className="max-w-7xl mx-auto border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-light text-white/50">
           <p>&copy; 2026 SanDesign. All rights reserved.</p>
         </div>
       </footer>
@@ -698,7 +694,7 @@ export default function App() {
       {/* Floating WhatsApp Button */}
       <button
         onClick={() => openWhatsApp()}
-        className="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white p-4 rounded-full shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex items-center justify-center group"
+        className="fixed bottom-6 right-6 z-50 bg-white text-[#1A6CBA] p-4 rounded-full shadow-2xl shadow-black/20 hover:-translate-y-1 hover:scale-105 transition-all duration-300 flex items-center justify-center group border border-white/20"
         aria-label="Chat via WhatsApp"
       >
         <MessageCircle size={28} />
