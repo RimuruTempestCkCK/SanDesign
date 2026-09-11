@@ -21,14 +21,12 @@ const Button = ({
   ...props
 }: any) => {
   const base =
-    "inline-flex items-center justify-center font-medium transition-all duration-300 rounded-sm backdrop-blur-sm"
+    "inline-flex items-center justify-center font-medium transition-all duration-300 rounded-sm"
   const variants = {
-    primary: "bg-white text-[#1A6CBA] hover:bg-gray-100 shadow-lg shadow-white/10",
-    secondary:
-      "bg-white/10 text-white border border-white/30 hover:bg-white/20",
-    outline:
-      "border border-white/30 text-white hover:bg-white/10",
-    dark: "bg-black/20 text-white hover:bg-black/30 border border-white/10",
+    primary: "bg-[#1A6CBA] text-white hover:bg-[#155A9C] shadow-md shadow-blue-900/10",
+    secondary: "bg-white text-slate-900 border border-slate-200 hover:bg-slate-50",
+    "outline-white": "border border-white/40 text-white hover:bg-white/10 backdrop-blur-sm",
+    "solid-white": "bg-white text-[#1A6CBA] hover:bg-gray-50 shadow-md",
   }
   const sizes = {
     sm: "px-4 py-2 text-sm",
@@ -209,27 +207,19 @@ export default function App() {
   ]
 
   return (
-    <div className="min-h-screen text-white relative selection:bg-white/30 selection:text-white">
-      {/* Fixed Full-Page Background Gradient */}
-      <div className="fixed inset-0 bg-gradient-to-br from-[#0b3b70] via-[#1A6CBA] to-[#64B5F6] -z-20"></div>
+    <div className="min-h-screen bg-white text-slate-900 selection:bg-blue-100 selection:text-blue-900 relative">
       
-      {/* Subtle pattern overlay applied to the entire site */}
-      <div 
-        className="fixed inset-0 opacity-[0.05] pointer-events-none -z-10" 
-        style={{ backgroundImage: "radial-gradient(#fff 1px, transparent 1px)", backgroundSize: "24px 24px" }}
-      ></div>
-
       {/* Navbar */}
       <header
         className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
           isScrolled
-            ? "bg-white/5 backdrop-blur-md border-b border-white/10 py-4 shadow-lg"
+            ? "bg-white/95 backdrop-blur-md border-b border-slate-200 py-4 shadow-sm"
             : "bg-transparent py-6"
         }`}
       >
         <div className="max-w-7xl mx-auto px-5 lg:px-8 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <span className="font-display font-bold text-2xl tracking-tight text-white">
+            <span className={`font-display font-bold text-2xl tracking-tight transition-colors ${isScrolled ? 'text-[#1A6CBA]' : 'text-white'}`}>
               SanDesign.
             </span>
           </div>
@@ -239,7 +229,9 @@ export default function App() {
               <a
                 key={link.name}
                 href={link.href}
-                className="text-sm font-medium text-white/80 hover:text-white transition-colors"
+                className={`text-sm font-medium transition-colors ${
+                  isScrolled ? 'text-slate-600 hover:text-[#1A6CBA]' : 'text-white/90 hover:text-white'
+                }`}
               >
                 {link.name}
               </a>
@@ -249,7 +241,7 @@ export default function App() {
           <div className="hidden lg:block">
             <Button
               size="sm"
-              variant="secondary"
+              variant={isScrolled ? "primary" : "solid-white"}
               onClick={() => openWhatsApp()}
               className="gap-2"
             >
@@ -259,7 +251,7 @@ export default function App() {
           </div>
 
           <button
-            className="lg:hidden text-white transition-colors"
+            className={`lg:hidden transition-colors ${isScrolled ? 'text-slate-900' : 'text-white'}`}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -268,12 +260,12 @@ export default function App() {
 
         {/* Mobile menu */}
         {mobileMenuOpen && (
-          <div className="lg:hidden absolute top-full left-0 w-full bg-[#0b3b70]/95 backdrop-blur-xl border-b border-white/20 shadow-lg p-5 flex flex-col gap-4">
+          <div className="lg:hidden absolute top-full left-0 w-full bg-white border-b border-slate-200 shadow-xl p-5 flex flex-col gap-4">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
-                className="text-base font-medium text-white hover:text-white/80 p-2 border-b border-white/10 last:border-0"
+                className="text-base font-medium text-slate-700 hover:text-[#1A6CBA] p-2 border-b border-slate-100 last:border-0"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {link.name}
@@ -292,9 +284,14 @@ export default function App() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 px-5 lg:px-8 overflow-hidden">
+      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 px-5 lg:px-8 bg-gradient-to-br from-[#0b3b70] via-[#1A6CBA] to-[#64B5F6] overflow-hidden text-white">
+        <div 
+          className="absolute inset-0 opacity-10 pointer-events-none" 
+          style={{ backgroundImage: "radial-gradient(#fff 1px, transparent 1px)", backgroundSize: "24px 24px" }}
+        ></div>
+        
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-20 relative z-10">
-          <div className="flex-1 space-y-8 text-center lg:text-left text-white animate-fade-in-up">
+          <div className="flex-1 space-y-8 text-center lg:text-left animate-fade-in-up">
             <div className="inline-block px-4 py-1.5 border border-white/30 text-white text-xs font-semibold uppercase tracking-widest rounded-sm bg-white/5 backdrop-blur-sm">
               Premium Design & Print
             </div>
@@ -302,19 +299,20 @@ export default function App() {
               Elevate Your <br />
               Brand Identity.
             </h1>
-            <p className="text-lg text-white/90 max-w-xl mx-auto lg:mx-0 font-light leading-relaxed">
+            <p className="text-lg text-blue-50 max-w-xl mx-auto lg:mx-0 font-light leading-relaxed">
               Jasa desain dan cetak premium untuk perusahaan, event, dan komunitas. Kami mewujudkan identitas visual Anda dengan standar profesional tertinggi.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
               <Button
                 size="lg"
+                variant="solid-white"
                 className="w-full sm:w-auto"
                 onClick={() => openWhatsApp()}
               >
                 Mulai Konsultasi
               </Button>
               <Button
-                variant="secondary"
+                variant="outline-white"
                 size="lg"
                 className="w-full sm:w-auto"
                 onClick={() =>
@@ -329,29 +327,29 @@ export default function App() {
           </div>
 
           <div className="flex-1 w-full max-w-lg lg:max-w-none relative animate-[fadeInUp_0.8s_ease-out_0.2s_forwards] opacity-0">
-            <div className="relative overflow-hidden shadow-2xl aspect-[3/4] max-w-md mx-auto lg:ml-auto border border-white/20 bg-white/5 backdrop-blur-sm rounded-sm p-2">
+            <div className="relative overflow-hidden shadow-2xl aspect-[3/4] max-w-md mx-auto lg:ml-auto border-4 border-white/20 bg-white/10 backdrop-blur-sm rounded-sm">
               <img
                 src={heroPhoto}
                 alt="SanDesign Hero Lanyard"
-                className="w-full h-full object-cover rounded-sm"
+                className="w-full h-full object-cover"
               />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Trust/Clients Marquee (Replaced Banner) */}
-      <section className="border-y border-white/10 bg-white/5 backdrop-blur-sm py-8 overflow-hidden flex">
+      {/* Trust/Clients Marquee */}
+      <section className="border-b border-slate-200 bg-white py-10 overflow-hidden flex">
         <div className="flex shrink-0 animate-marquee items-center gap-16 px-8">
           {clientLogos.map((logo, i) => (
-            <span key={`logo1-${i}`} className="text-xl md:text-2xl font-display font-bold text-white/40 tracking-wider uppercase whitespace-nowrap">
+            <span key={`logo1-${i}`} className="text-xl md:text-2xl font-display font-bold text-slate-300 tracking-wider uppercase whitespace-nowrap">
               {logo}
             </span>
           ))}
         </div>
         <div className="flex shrink-0 animate-marquee items-center gap-16 px-8" aria-hidden="true">
           {clientLogos.map((logo, i) => (
-            <span key={`logo2-${i}`} className="text-xl md:text-2xl font-display font-bold text-white/40 tracking-wider uppercase whitespace-nowrap">
+            <span key={`logo2-${i}`} className="text-xl md:text-2xl font-display font-bold text-slate-300 tracking-wider uppercase whitespace-nowrap">
               {logo}
             </span>
           ))}
@@ -359,33 +357,33 @@ export default function App() {
       </section>
 
       {/* About */}
-      <section id="tentang" className="py-24 px-5 max-w-7xl mx-auto">
+      <section id="tentang" className="py-24 px-5 max-w-7xl mx-auto bg-white text-slate-900">
         <div className="flex flex-col lg:flex-row gap-16 items-center">
           <div className="flex-1 relative w-full">
-            <div className="aspect-square max-w-lg mx-auto bg-white/5 border border-white/10 p-2 backdrop-blur-sm overflow-hidden rounded-sm shadow-xl">
+            <div className="aspect-square max-w-lg mx-auto bg-slate-100 p-2 overflow-hidden rounded-sm shadow-xl border border-slate-200">
               <img
                 src="https://images.unsplash.com/photo-1600132806370-bf17e65e942f?w=800&h=800&fit=crop"
                 alt="Proses Desain Profesional"
-                className="w-full h-full object-cover grayscale opacity-80 hover:opacity-100 hover:grayscale-0 transition-all duration-700 rounded-sm"
+                className="w-full h-full object-cover grayscale opacity-90 hover:opacity-100 hover:grayscale-0 transition-all duration-700 rounded-sm"
               />
             </div>
           </div>
           <div className="flex-1 space-y-8">
-            <h2 className="font-display font-semibold text-3xl lg:text-4xl text-white drop-shadow-sm">
+            <h2 className="font-display font-semibold text-3xl lg:text-4xl text-slate-900">
               Pendekatan Profesional <br /> Untuk Identitas Visual Anda.
             </h2>
-            <div className="w-12 h-[2px] bg-white"></div>
-            <p className="text-white/80 text-lg font-light leading-relaxed">
+            <div className="w-12 h-[3px] bg-[#1A6CBA]"></div>
+            <p className="text-slate-600 text-lg font-light leading-relaxed">
               SanDesign membantu perusahaan dan organisasi membangun citra profesional melalui desain dan produksi Lanyard serta ID Card berkualitas tinggi. Kami percaya bahwa detail kecil mencerminkan profesionalisme brand Anda di mata klien dan publik.
             </p>
             <div className="pt-4 grid sm:grid-cols-2 gap-8">
-              <div className="bg-white/5 border border-white/10 p-5 rounded-sm backdrop-blur-sm">
-                <h4 className="font-semibold text-white mb-2">Desain Kustom Presisi</h4>
-                <p className="text-sm text-white/70 font-light">Setiap detail disesuaikan dengan pedoman identitas brand Anda.</p>
+              <div className="bg-slate-50 border border-slate-200 p-5 rounded-sm">
+                <h4 className="font-semibold text-slate-900 mb-2">Desain Kustom Presisi</h4>
+                <p className="text-sm text-slate-600 font-light">Setiap detail disesuaikan dengan pedoman identitas brand Anda.</p>
               </div>
-              <div className="bg-white/5 border border-white/10 p-5 rounded-sm backdrop-blur-sm">
-                <h4 className="font-semibold text-white mb-2">Material Premium</h4>
-                <p className="text-sm text-white/70 font-light">Menggunakan bahan tahan lama dengan hasil cetak warna yang tajam.</p>
+              <div className="bg-slate-50 border border-slate-200 p-5 rounded-sm">
+                <h4 className="font-semibold text-slate-900 mb-2">Material Premium</h4>
+                <p className="text-sm text-slate-600 font-light">Menggunakan bahan tahan lama dengan hasil cetak warna yang tajam.</p>
               </div>
             </div>
           </div>
@@ -393,14 +391,14 @@ export default function App() {
       </section>
 
       {/* Services */}
-      <section id="layanan" className="py-24 px-5">
+      <section id="layanan" className="py-24 px-5 bg-slate-50 border-y border-slate-200">
         <div className="max-w-7xl mx-auto">
           <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-8">
             <div className="max-w-2xl">
-              <h2 className="font-display font-semibold text-3xl lg:text-4xl text-white mb-4 drop-shadow-sm">
+              <h2 className="font-display font-semibold text-3xl lg:text-4xl text-slate-900 mb-4">
                 Layanan Kami
               </h2>
-              <p className="text-white/80 text-lg font-light leading-relaxed">
+              <p className="text-slate-600 text-lg font-light leading-relaxed">
                 Solusi komprehensif untuk kebutuhan identitas visual dan branding Anda, dieksekusi dengan presisi dan kualitas.
               </p>
             </div>
@@ -410,15 +408,15 @@ export default function App() {
             {services.map((service, i) => (
               <div
                 key={i}
-                className="group bg-white/5 border border-white/10 p-8 hover:bg-white/10 transition-colors duration-300 backdrop-blur-sm rounded-sm shadow-sm"
+                className="group bg-white border border-slate-200 p-8 hover:border-[#1A6CBA] transition-colors duration-300 rounded-sm shadow-sm hover:shadow-md"
               >
-                <span className="text-xs font-semibold text-white/50 mb-4 block tracking-widest border-b border-white/10 pb-4">
+                <span className="text-xs font-bold text-[#1A6CBA] mb-4 block tracking-widest border-b border-slate-100 pb-4">
                   {service.num}
                 </span>
-                <h3 className="font-display font-semibold text-xl mb-3 text-white">
+                <h3 className="font-display font-semibold text-xl mb-3 text-slate-900 group-hover:text-[#1A6CBA] transition-colors">
                   {service.title}
                 </h3>
-                <p className="text-white/70 text-sm leading-relaxed font-light">
+                <p className="text-slate-600 text-sm leading-relaxed font-light">
                   {service.desc}
                 </p>
               </div>
@@ -428,14 +426,14 @@ export default function App() {
       </section>
 
       {/* Catalog */}
-      <section id="katalog" className="py-24 px-5">
+      <section id="katalog" className="py-24 px-5 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="mb-16 flex flex-col lg:flex-row lg:items-end justify-between gap-8">
             <div>
-              <h2 className="font-display font-semibold text-3xl lg:text-4xl text-white mb-4 drop-shadow-sm">
+              <h2 className="font-display font-semibold text-3xl lg:text-4xl text-slate-900 mb-4">
                 Katalog Produk
               </h2>
-              <p className="text-white/80 text-lg font-light">
+              <p className="text-slate-600 text-lg font-light">
                 Eksplorasi lini produk premium kami.
               </p>
             </div>
@@ -444,10 +442,10 @@ export default function App() {
                 <button
                   key={cat}
                   onClick={() => setActiveFilter(cat)}
-                  className={`px-5 py-2 text-sm font-medium transition-all rounded-sm border backdrop-blur-sm ${
+                  className={`px-5 py-2 text-sm font-medium transition-all rounded-sm border ${
                     activeFilter === cat
-                      ? "bg-white text-[#1A6CBA] border-white shadow-lg"
-                      : "bg-white/5 text-white/80 border-white/20 hover:bg-white/10 hover:text-white"
+                      ? "bg-[#1A6CBA] text-white border-[#1A6CBA] shadow-md"
+                      : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50 hover:text-slate-900"
                   }`}
                 >
                   {cat}
@@ -460,36 +458,33 @@ export default function App() {
             {filteredProducts.map((product) => (
               <div
                 key={product.id}
-                className="bg-white/5 border border-white/10 backdrop-blur-sm hover:border-white/30 hover:bg-white/10 transition-all duration-300 rounded-sm overflow-hidden p-3 group cursor-pointer"
+                className="bg-white border border-slate-200 hover:border-[#1A6CBA] hover:shadow-xl hover:shadow-blue-900/5 transition-all duration-300 rounded-sm overflow-hidden p-3 group cursor-pointer"
                 onClick={() =>
                   openWhatsApp(
                     `Halo SanDesign, saya tertarik dengan produk ${product.name}`,
                   )
                 }
               >
-                <div className="relative aspect-[4/3] overflow-hidden border border-white/10 rounded-sm">
+                <div className="relative aspect-[4/3] overflow-hidden rounded-sm bg-slate-50">
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700 ease-out"
                   />
                 </div>
                 <div className="pt-6 pb-3 px-3">
-                  <div className="text-xs font-semibold text-white/50 uppercase tracking-widest mb-2">
+                  <div className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-2">
                     {product.cat}
                   </div>
-                  <h3 className="font-display font-semibold text-lg mb-1 text-white">
+                  <h3 className="font-display font-semibold text-lg mb-1 text-slate-900 group-hover:text-[#1A6CBA] transition-colors">
                     {product.name}
                   </h3>
-                  <p className="text-white/80 text-sm mb-6 font-light">
+                  <p className="text-slate-600 text-sm mb-6 font-medium">
                     {product.price}
                   </p>
-                  <div className="flex items-center text-white text-sm font-semibold group-hover:translate-x-1 transition-transform">
+                  <div className="flex items-center text-[#1A6CBA] text-sm font-semibold group-hover:translate-x-1 transition-transform">
                     Pesan Sekarang{" "}
-                    <ArrowRight
-                      size={16}
-                      className="ml-2 opacity-70 group-hover:opacity-100"
-                    />
+                    <ArrowRight size={16} className="ml-2" />
                   </div>
                 </div>
               </div>
@@ -498,20 +493,20 @@ export default function App() {
         </div>
       </section>
 
-      {/* Portfolio / Gallery */}
-      <section id="portofolio" className="py-24 px-5">
-        <div className="max-w-7xl mx-auto">
+      {/* Portfolio / Gallery (Dark Section for Contrast) */}
+      <section id="portofolio" className="py-24 px-5 bg-[#0B1A2E] text-white relative">
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="mb-16 flex flex-col lg:flex-row lg:items-end justify-between gap-8">
             <div>
-              <h2 className="font-display font-semibold text-3xl lg:text-4xl text-white mb-4 drop-shadow-sm">
+              <h2 className="font-display font-semibold text-3xl lg:text-4xl text-white mb-4">
                 Galeri Hasil Karya
               </h2>
-              <p className="text-white/80 text-lg font-light">
+              <p className="text-blue-200/80 text-lg font-light">
                 Bukti nyata dari dedikasi kami terhadap kualitas dan detail.
               </p>
             </div>
             <Button
-              variant="secondary"
+              variant="outline-white"
               onClick={() =>
                 openWhatsApp("Halo SanDesign, boleh saya melihat contoh hasil cetak lainnya?")
               }
@@ -524,14 +519,14 @@ export default function App() {
             {portfolios.map((item, i) => (
               <div
                 key={i}
-                className="group relative bg-white/5 border border-white/10 rounded-sm overflow-hidden aspect-[4/5] cursor-pointer shadow-sm"
+                className="group relative border border-white/10 bg-white/5 rounded-sm overflow-hidden aspect-[4/5] cursor-pointer shadow-xl"
               >
                 <img
                   src={item.img}
                   alt={item.title}
                   className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 ease-out"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0b3b70]/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0b1a2e] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
                   <h4 className="text-white font-display font-semibold text-lg drop-shadow-md">
                     {item.title}
                   </h4>
@@ -543,20 +538,20 @@ export default function App() {
       </section>
 
       {/* Process */}
-      <section id="proses" className="py-24 px-5">
+      <section id="proses" className="py-24 px-5 bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto">
           <div className="mb-16">
-            <h2 className="font-display font-semibold text-3xl lg:text-4xl text-white mb-4 drop-shadow-sm">
+            <h2 className="font-display font-semibold text-3xl lg:text-4xl text-slate-900 mb-4">
               Cara Pemesanan
             </h2>
-            <p className="text-white/80 text-lg font-light">
+            <p className="text-slate-600 text-lg font-light">
               Proses kolaborasi yang efisien, terstruktur, dan transparan.
             </p>
           </div>
 
           <div className="grid md:grid-cols-5 gap-8 relative">
             {/* Desktop Line Connector */}
-            <div className="hidden md:block absolute top-6 left-12 right-12 h-[1px] bg-white/20 -z-10"></div>
+            <div className="hidden md:block absolute top-6 left-12 right-12 h-[2px] bg-slate-100 -z-10"></div>
             
             {[
               {
@@ -586,11 +581,11 @@ export default function App() {
               },
             ].map((step, i) => (
               <div key={i} className="flex flex-col">
-                <div className="w-12 h-12 bg-white/10 border border-white/20 backdrop-blur-md flex items-center justify-center font-display font-semibold text-white text-sm mb-6 rounded-sm shadow-sm">
+                <div className="w-12 h-12 bg-white border-[2px] border-slate-200 flex items-center justify-center font-display font-bold text-[#1A6CBA] text-sm mb-6 rounded-sm shadow-sm">
                   {step.n}
                 </div>
-                <h3 className="font-semibold text-white mb-2">{step.t}</h3>
-                <p className="text-white/70 text-sm font-light leading-relaxed">
+                <h3 className="font-semibold text-slate-900 mb-2">{step.t}</h3>
+                <p className="text-slate-600 text-sm font-light leading-relaxed">
                   {step.d}
                 </p>
               </div>
@@ -600,13 +595,13 @@ export default function App() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-24 px-5 bg-black/10 border-y border-white/10 backdrop-blur-sm">
+      <section className="py-24 px-5 bg-slate-50">
         <div className="max-w-7xl mx-auto">
           <div className="mb-16 text-center">
-            <h2 className="font-display font-semibold text-3xl lg:text-4xl text-white mb-4 drop-shadow-sm">
+            <h2 className="font-display font-semibold text-3xl lg:text-4xl text-slate-900 mb-4">
               Dipercaya oleh Klien Kami
             </h2>
-            <p className="text-white/80 text-lg font-light">
+            <p className="text-slate-600 text-lg font-light">
               Bukti kepuasan dari mereka yang telah berkolaborasi dengan SanDesign.
             </p>
           </div>
@@ -615,7 +610,7 @@ export default function App() {
             {testimonials.map((testi, i) => (
               <div
                 key={i}
-                className="bg-white/5 border border-white/10 p-8 rounded-sm backdrop-blur-sm flex flex-col relative"
+                className="bg-white border border-slate-200 p-8 rounded-sm shadow-sm flex flex-col relative"
               >
                 <div className="flex gap-1 mb-6">
                   {[...Array(5)].map((_, idx) => (
@@ -626,12 +621,12 @@ export default function App() {
                     />
                   ))}
                 </div>
-                <p className="text-white/90 font-light leading-relaxed mb-8 italic flex-1">
+                <p className="text-slate-700 font-light leading-relaxed mb-8 italic flex-1">
                   "{testi.text}"
                 </p>
-                <div className="border-t border-white/10 pt-5 mt-auto">
-                  <h4 className="font-semibold text-white mb-1">{testi.name}</h4>
-                  <p className="text-xs text-white/50 tracking-wider uppercase font-medium">
+                <div className="border-t border-slate-100 pt-5 mt-auto">
+                  <h4 className="font-semibold text-slate-900 mb-1">{testi.name}</h4>
+                  <p className="text-xs text-slate-500 tracking-wider uppercase font-medium">
                     {testi.role}
                   </p>
                 </div>
@@ -642,13 +637,13 @@ export default function App() {
       </section>
 
       {/* FAQ */}
-      <section id="faq" className="py-24 px-5">
+      <section id="faq" className="py-24 px-5 bg-white border-t border-slate-200">
         <div className="max-w-3xl mx-auto">
           <div className="mb-12 text-center">
-            <h2 className="font-display font-semibold text-3xl lg:text-4xl text-white mb-4 drop-shadow-sm">
+            <h2 className="font-display font-semibold text-3xl lg:text-4xl text-slate-900 mb-4">
               Pertanyaan Umum
             </h2>
-            <p className="text-white/80 text-lg font-light">
+            <p className="text-slate-600 text-lg font-light">
               Informasi seputar layanan dan pemesanan.
             </p>
           </div>
@@ -657,28 +652,28 @@ export default function App() {
             {faqs.map((faq, i) => (
               <div
                 key={i}
-                className="bg-white/5 border border-white/10 backdrop-blur-sm rounded-sm overflow-hidden"
+                className="bg-white border border-slate-200 rounded-sm overflow-hidden"
               >
                 <button
-                  className="w-full px-6 py-5 text-left flex items-center justify-between font-medium text-white hover:bg-white/5 transition-colors"
+                  className="w-full px-6 py-5 text-left flex items-center justify-between font-medium text-slate-900 hover:bg-slate-50 transition-colors"
                   onClick={() => setActiveFaq(activeFaq === i ? null : i)}
                 >
                   {faq.q}
                   <ChevronDown
-                    className={`transition-transform duration-300 text-white/50 ${
+                    className={`transition-transform duration-300 text-slate-400 ${
                       activeFaq === i ? "rotate-180" : ""
                     }`}
                     size={20}
                   />
                 </button>
                 <div
-                  className={`px-6 overflow-hidden transition-all duration-300 ease-in-out ${
+                  className={`px-6 overflow-hidden transition-all duration-300 ease-in-out bg-slate-50 ${
                     activeFaq === i
-                      ? "max-h-40 pb-5 opacity-100"
+                      ? "max-h-40 py-5 opacity-100 border-t border-slate-100"
                       : "max-h-0 opacity-0"
                   }`}
                 >
-                  <p className="text-white/70 font-light text-sm">{faq.a}</p>
+                  <p className="text-slate-600 font-light text-sm">{faq.a}</p>
                 </div>
               </div>
             ))}
@@ -687,17 +682,18 @@ export default function App() {
       </section>
 
       {/* CTA */}
-      <section className="py-24 px-5 text-center bg-white/5 border-y border-white/10 backdrop-blur-sm">
+      <section className="py-24 px-5 text-center bg-gradient-to-br from-[#0b3b70] via-[#1A6CBA] to-[#64B5F6] text-white">
         <div className="max-w-3xl mx-auto space-y-8">
           <h2 className="font-display font-semibold text-3xl lg:text-5xl text-white tracking-tight drop-shadow-sm">
             Siap Meningkatkan Citra Perusahaan Anda?
           </h2>
-          <p className="text-white/80 text-lg font-light">
+          <p className="text-white/90 text-lg font-light">
             Mari diskusikan kebutuhan Lanyard dan ID Card profesional untuk tim dan brand Anda.
           </p>
           <div className="pt-4">
             <Button
               size="lg"
+              variant="solid-white"
               className="gap-2"
               onClick={() => openWhatsApp()}
             >
@@ -708,13 +704,13 @@ export default function App() {
       </section>
 
       {/* Footer */}
-      <footer className="pt-16 pb-8 px-5 bg-black/10 backdrop-blur-md border-t border-white/10">
+      <footer className="pt-16 pb-8 px-5 bg-slate-950 text-slate-400 border-t border-slate-900">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           <div className="space-y-4">
             <span className="font-display font-bold text-2xl tracking-tight text-white block mb-6">
               SanDesign.
             </span>
-            <p className="text-sm font-light text-white/70 leading-relaxed">
+            <p className="text-sm font-light text-slate-400 leading-relaxed">
               Solusi desain dan cetak Lanyard serta ID Card premium untuk memperkuat identitas profesional perusahaan Anda.
             </p>
           </div>
@@ -728,7 +724,7 @@ export default function App() {
                 <li key={l.name}>
                   <a
                     href={l.href}
-                    className="text-white/70 hover:text-white transition-colors"
+                    className="text-slate-400 hover:text-white transition-colors"
                   >
                     {l.name}
                   </a>
@@ -743,17 +739,17 @@ export default function App() {
             </h4>
             <ul className="space-y-3 text-sm font-light">
               <li>
-                <a href="#" className="text-white/70 hover:text-white transition-colors">
+                <a href="#" className="text-slate-400 hover:text-white transition-colors">
                   Lanyard Kustom
                 </a>
               </li>
               <li>
-                <a href="#" className="text-white/70 hover:text-white transition-colors">
+                <a href="#" className="text-slate-400 hover:text-white transition-colors">
                   Cetak ID Card
                 </a>
               </li>
               <li>
-                <a href="#" className="text-white/70 hover:text-white transition-colors">
+                <a href="#" className="text-slate-400 hover:text-white transition-colors">
                   Corporate Kit
                 </a>
               </li>
@@ -770,7 +766,7 @@ export default function App() {
                   href={`https://wa.me/${WHATSAPP_NUMBER}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center gap-3 text-white/70 hover:text-white transition-colors"
+                  className="flex items-center gap-3 text-slate-400 hover:text-white transition-colors"
                 >
                   <MessageCircle size={16} /> WhatsApp
                 </a>
@@ -778,7 +774,7 @@ export default function App() {
               <li>
                 <a
                   href="#"
-                  className="flex items-center gap-3 text-white/70 hover:text-white transition-colors"
+                  className="flex items-center gap-3 text-slate-400 hover:text-white transition-colors"
                 >
                   <Camera size={16} /> Instagram
                 </a>
@@ -786,7 +782,7 @@ export default function App() {
               <li>
                 <a
                   href="#"
-                  className="flex items-center gap-3 text-white/70 hover:text-white transition-colors"
+                  className="flex items-center gap-3 text-slate-400 hover:text-white transition-colors"
                 >
                   <Mail size={16} /> Email
                 </a>
@@ -795,7 +791,7 @@ export default function App() {
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-light text-white/50">
+        <div className="max-w-7xl mx-auto border-t border-slate-800 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-light text-slate-500">
           <p>&copy; 2026 SanDesign. All rights reserved.</p>
         </div>
       </footer>
@@ -803,7 +799,7 @@ export default function App() {
       {/* Floating WhatsApp Button */}
       <button
         onClick={() => openWhatsApp()}
-        className="fixed bottom-6 right-6 z-50 bg-white text-[#1A6CBA] p-4 rounded-full shadow-2xl shadow-black/20 hover:-translate-y-1 hover:scale-105 transition-all duration-300 flex items-center justify-center group border border-white/20"
+        className="fixed bottom-6 right-6 z-50 bg-[#1A6CBA] text-white p-4 rounded-full shadow-xl hover:-translate-y-1 hover:scale-105 transition-all duration-300 flex items-center justify-center group border border-[#155A9C]"
         aria-label="Chat via WhatsApp"
       >
         <MessageCircle size={28} />
